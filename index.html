@@ -1,0 +1,2884 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulir Usulan Pengadaan Buku | Perpustakaan STPM Santa Ursula</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap 5 CSS & Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================================
+       DESIGN TOKENS & INSTITUTIONAL THEME (STPM SANTA URSULA)
+       ========================================================================== */
+    :root {
+      --stpm-primary: #2F5D4A;
+      --stpm-primary-dark: #224536;
+      --stpm-primary-light: #3E765F;
+      --stpm-primary-soft: #EAF2EE;
+      --stpm-accent: #16C47F;
+      --stpm-accent-dark: #119E66;
+      --stpm-accent-soft: #E7F9F1;
+      --stpm-bg: #F4F7F5;
+      --stpm-surface: #FFFFFF;
+      --stpm-text: #1B2A24;
+      --stpm-text-muted: #5C6F67;
+      --stpm-border: #DCE5E0;
+      --stpm-danger: #DC3545;
+      --stpm-radius-lg: 18px;
+      --stpm-radius-md: 12px;
+      --stpm-radius-sm: 8px;
+      --stpm-shadow-sm: 0 2px 10px rgba(31, 61, 48, 0.05);
+      --stpm-shadow-md: 0 12px 32px rgba(31, 61, 48, 0.08);
+      --stpm-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--stpm-bg);
+      color: var(--stpm-text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ==========================================================================
+       INSTITUTIONAL HEADER
+       ========================================================================== */
+    .hero-header {
+      background: linear-gradient(135deg, var(--stpm-primary-dark) 0%, var(--stpm-primary) 65%, #376D57 100%);
+      color: #FFFFFF;
+      padding: 2.75rem 0 4.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 15% 25%, rgba(22, 196, 127, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(8px);
+      color: #E7F9F1;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.42rem 0.95rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+    }
+
+    .hero-badge i {
+      color: var(--stpm-accent);
+      font-size: 0.95rem;
+    }
+
+    .hero-institution {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #C9E8D9;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .hero-title {
+      font-size: clamp(1.5rem, 3vw, 2.15rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      margin-bottom: 0.85rem;
+    }
+
+    .hero-subtitle {
+      font-size: 0.98rem;
+      color: rgba(255, 255, 255, 0.88);
+      max-width: 700px;
+      margin: 0 auto;
+      font-style: italic;
+    }
+
+    /* ==========================================================================
+       MAIN APPLICATION CONTAINER & PROGRESS INDICATOR
+       ========================================================================== */
+    .main-wrapper {
+      margin-top: -2.75rem;
+      padding-bottom: 3.5rem;
+      position: relative;
+      z-index: 2;
+      flex: 1;
+    }
+
+    .app-card {
+      background: var(--stpm-surface);
+      border: 1px solid var(--stpm-border);
+      border-radius: var(--stpm-radius-lg);
+      box-shadow: var(--stpm-shadow-md);
+      overflow: hidden;
+    }
+
+    /* Stepper / Progress Indicator */
+    .stepper-wrapper {
+      background: #FAFDFB;
+      border-bottom: 1px solid var(--stpm-border);
+      padding: 1.5rem 2rem;
+    }
+
+    .stepper-track {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      position: relative;
+      gap: 0.5rem;
+    }
+
+    .stepper-line-bg {
+      position: absolute;
+      top: 19px;
+      left: 10%;
+      right: 10%;
+      height: 3px;
+      background: #E1EAE5;
+      z-index: 0;
+      border-radius: 99px;
+    }
+
+    .stepper-line-fill {
+      position: absolute;
+      top: 19px;
+      left: 10%;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--stpm-primary), var(--stpm-accent));
+      z-index: 1;
+      border-radius: 99px;
+      transition: width 0.35s ease;
+    }
+
+    .step-item {
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: default;
+    }
+
+    .step-item.clickable {
+      cursor: pointer;
+    }
+
+    .step-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 2px solid #CBD9D2;
+      color: var(--stpm-text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.88rem;
+      transition: var(--stpm-transition);
+      margin-bottom: 0.45rem;
+    }
+
+    .step-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--stpm-text-muted);
+      transition: var(--stpm-transition);
+    }
+
+    .step-item.active .step-circle {
+      background: var(--stpm-primary);
+      border-color: var(--stpm-primary);
+      color: #FFFFFF;
+      box-shadow: 0 0 0 5px rgba(22, 196, 127, 0.22);
+    }
+
+    .step-item.active .step-label {
+      color: var(--stpm-primary);
+      font-weight: 700;
+    }
+
+    .step-item.completed .step-circle {
+      background: var(--stpm-accent);
+      border-color: var(--stpm-accent);
+      color: #FFFFFF;
+    }
+
+    .step-item.completed .step-label {
+      color: var(--stpm-primary);
+    }
+
+    .mobile-progress-bar {
+      display: none;
+    }
+
+    /* ==========================================================================
+       STEP SECTIONS & TRANSITION ANIMATION
+       ========================================================================== */
+    .form-body {
+      padding: 2.25rem 2.25rem 2rem;
+    }
+
+    .step-pane {
+      display: none;
+      animation: fadeSlideIn 0.3s ease forwards;
+    }
+
+    .step-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .section-eyebrow {
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--stpm-accent-dark);
+      margin-bottom: 0.3rem;
+    }
+
+    .section-heading {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--stpm-text);
+      margin-bottom: 0.4rem;
+    }
+
+    .section-desc {
+      font-size: 0.93rem;
+      color: var(--stpm-text-muted);
+      margin-bottom: 1.75rem;
+    }
+
+    /* ==========================================================================
+       INTERACTIVE SELECTION CARDS (TAHAP 1 & TAHAP 3)
+       ========================================================================== */
+    .choice-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      height: 100%;
+      padding: 1.5rem;
+      border-radius: var(--stpm-radius-md);
+      border: 2px solid var(--stpm-border);
+      background: #FFFFFF;
+      text-align: left;
+      cursor: pointer;
+      transition: var(--stpm-transition);
+    }
+
+    .choice-card:hover {
+      border-color: var(--stpm-primary-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(47, 93, 74, 0.08);
+    }
+
+    .choice-card.selected {
+      border-color: var(--stpm-primary);
+      background: linear-gradient(180deg, #F4FBF8 0%, #FFFFFF 100%);
+      box-shadow: 0 0 0 4px rgba(22, 196, 127, 0.16);
+    }
+
+    .choice-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: var(--stpm-primary-soft);
+      color: var(--stpm-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      transition: var(--stpm-transition);
+    }
+
+    .choice-card.selected .choice-icon {
+      background: var(--stpm-primary);
+      color: #FFFFFF;
+    }
+
+    .choice-check {
+      position: absolute;
+      top: 1.15rem;
+      right: 1.15rem;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid #CFDCD5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: transparent;
+      font-size: 0.9rem;
+      transition: var(--stpm-transition);
+    }
+
+    .choice-card.selected .choice-check {
+      background: var(--stpm-accent);
+      border-color: var(--stpm-accent);
+      color: #FFFFFF;
+    }
+
+    .choice-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--stpm-text);
+      margin-bottom: 0.35rem;
+    }
+
+    .choice-desc {
+      font-size: 0.87rem;
+      color: var(--stpm-text-muted);
+      margin-bottom: 0;
+    }
+
+    /* Custom Book Count Panel (> 2 Judul) */
+    .custom-count-box {
+      margin-top: 1.25rem;
+      padding: 1.15rem 1.35rem;
+      border-radius: var(--stpm-radius-md);
+      background: #F4FBF8;
+      border: 1.5px solid #CBE4D8;
+      animation: fadeSlideIn 0.25s ease forwards;
+    }
+
+    /* ==========================================================================
+       FORM INPUTS & BOOK DETAIL CARDS
+       ========================================================================== */
+    .form-label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--stpm-text);
+      margin-bottom: 0.4rem;
+    }
+
+    .required-mark {
+      color: var(--stpm-danger);
+      margin-left: 2px;
+    }
+
+    .optional-tag {
+      font-size: 0.74rem;
+      font-weight: 500;
+      color: var(--stpm-text-muted);
+      background: #F1F5F3;
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      margin-left: 0.35rem;
+    }
+
+    .form-control,
+    .form-select {
+      border: 1.5px solid var(--stpm-border);
+      border-radius: var(--stpm-radius-sm);
+      padding: 0.68rem 0.95rem;
+      font-size: 0.94rem;
+      color: var(--stpm-text);
+      transition: var(--stpm-transition);
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-color: var(--stpm-primary);
+      box-shadow: 0 0 0 4px rgba(22, 196, 127, 0.16);
+    }
+
+    .input-group-text {
+      background: var(--stpm-primary-soft);
+      border: 1.5px solid var(--stpm-border);
+      color: var(--stpm-primary);
+      font-weight: 600;
+      border-radius: var(--stpm-radius-sm);
+    }
+
+    .form-text {
+      font-size: 0.8rem;
+      color: var(--stpm-text-muted);
+    }
+
+    .role-context-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      background: var(--stpm-primary-soft);
+      border: 1px solid #D1E3DA;
+      border-radius: var(--stpm-radius-md);
+      padding: 0.85rem 1.15rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .role-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      color: var(--stpm-primary);
+      font-size: 0.92rem;
+    }
+
+    /* Book Form Card */
+    .book-card {
+      border: 1.5px solid var(--stpm-border);
+      border-radius: var(--stpm-radius-md);
+      background: #FFFFFF;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--stpm-shadow-sm);
+    }
+
+    .book-card-header {
+      background: linear-gradient(90deg, var(--stpm-primary-soft) 0%, #F7FBF9 100%);
+      border-bottom: 1px solid var(--stpm-border);
+      padding: 0.95rem 1.35rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .book-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      color: var(--stpm-primary);
+      font-size: 0.98rem;
+    }
+
+    .book-number-pill {
+      background: var(--stpm-primary);
+      color: #FFFFFF;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.22rem 0.65rem;
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+    }
+
+    .book-card-body {
+      padding: 1.4rem 1.35rem;
+    }
+
+    .book-subtotal-box {
+      background: var(--stpm-accent-soft);
+      border: 1px solid #BFEFD9;
+      border-radius: var(--stpm-radius-sm);
+      padding: 0.68rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 46px;
+    }
+
+    .book-subtotal-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--stpm-primary);
+    }
+
+    .book-subtotal-value {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: var(--stpm-primary-dark);
+    }
+
+    /* Grand Total Banner */
+    .grand-total-banner {
+      background: linear-gradient(135deg, var(--stpm-primary) 0%, var(--stpm-primary-dark) 100%);
+      color: #FFFFFF;
+      border-radius: var(--stpm-radius-md);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .grand-total-label {
+      font-size: 0.85rem;
+      color: #CBE7D8;
+      margin-bottom: 0.15rem;
+    }
+
+    .grand-total-amount {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;
+    }
+
+    .grand-total-breakdown {
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    /* ==========================================================================
+       SUMMARY & CONFIRMATION (TAHAP 5)
+       ========================================================================== */
+    .summary-section {
+      border: 1px solid var(--stpm-border);
+      border-radius: var(--stpm-radius-md);
+      background: #FCFDFC;
+      padding: 1.25rem 1.35rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .summary-section-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--stpm-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding-bottom: 0.7rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px dashed var(--stpm-border);
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 0.9rem 1.25rem;
+    }
+
+    .summary-item-label {
+      font-size: 0.76rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--stpm-text-muted);
+      margin-bottom: 0.18rem;
+    }
+
+    .summary-item-value {
+      font-size: 0.94rem;
+      font-weight: 600;
+      color: var(--stpm-text);
+      word-break: break-word;
+    }
+
+    .agreement-box {
+      background: #F6FBF8;
+      border: 1.5px solid #CBE4D8;
+      border-radius: var(--stpm-radius-md);
+      padding: 1rem 1.25rem;
+      margin-top: 1.25rem;
+    }
+
+    .agreement-box.is-invalid {
+      border-color: var(--stpm-danger);
+      background: #FFF6F7;
+    }
+
+    .form-check-input:checked {
+      background-color: var(--stpm-primary);
+      border-color: var(--stpm-primary);
+    }
+
+    .form-check-input:focus {
+      box-shadow: 0 0 0 4px rgba(22, 196, 127, 0.2);
+      border-color: var(--stpm-primary);
+    }
+
+    /* ==========================================================================
+       SUCCESS SCREEN (TAHAP 6)
+       ========================================================================== */
+    .success-wrapper {
+      text-align: center;
+      padding: 1.5rem 0.5rem 1rem;
+    }
+
+    .success-icon-ring {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      background: var(--stpm-accent-soft);
+      color: var(--stpm-accent-dark);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.75rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 0 0 10px rgba(22, 196, 127, 0.12);
+      animation: popIn 0.45s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.6); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .receipt-card {
+      max-width: 580px;
+      margin: 1.5rem auto;
+      text-align: left;
+      border: 1.5px solid #CFE3D9;
+      border-radius: var(--stpm-radius-md);
+      background: #FAFDFB;
+      padding: 1.35rem 1.5rem;
+    }
+
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.65rem 0;
+      border-bottom: 1px dashed #D7E5DE;
+      font-size: 0.92rem;
+    }
+
+    .receipt-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .receipt-code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--stpm-primary);
+      background: var(--stpm-primary-soft);
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+    }
+
+    /* ==========================================================================
+       BUTTONS & NAVIGATION FOOTER
+       ========================================================================== */
+    .form-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-top: 2rem;
+      padding-top: 1.4rem;
+      border-top: 1px solid var(--stpm-border);
+    }
+
+    .btn-stpm-primary {
+      background-color: var(--stpm-primary);
+      border-color: var(--stpm-primary);
+      color: #FFFFFF;
+      font-weight: 600;
+      padding: 0.7rem 1.45rem;
+      border-radius: var(--stpm-radius-sm);
+      transition: var(--stpm-transition);
+    }
+
+    .btn-stpm-primary:hover:not(:disabled) {
+      background-color: var(--stpm-primary-dark);
+      border-color: var(--stpm-primary-dark);
+      color: #FFFFFF;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(47, 93, 74, 0.22);
+    }
+
+    .btn-stpm-primary:disabled {
+      background-color: #84A396;
+      border-color: #84A396;
+      color: #FFFFFF;
+      cursor: not-allowed;
+    }
+
+    .btn-stpm-accent {
+      background-color: var(--stpm-accent);
+      border-color: var(--stpm-accent);
+      color: #0D3525;
+      font-weight: 700;
+      padding: 0.7rem 1.55rem;
+      border-radius: var(--stpm-radius-sm);
+      transition: var(--stpm-transition);
+    }
+
+    .btn-stpm-accent:hover:not(:disabled) {
+      background-color: var(--stpm-accent-dark);
+      border-color: var(--stpm-accent-dark);
+      color: #FFFFFF;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(22, 196, 127, 0.28);
+    }
+
+    .btn-stpm-outline {
+      background: #FFFFFF;
+      border: 1.5px solid var(--stpm-border);
+      color: var(--stpm-text);
+      font-weight: 600;
+      padding: 0.7rem 1.3rem;
+      border-radius: var(--stpm-radius-sm);
+      transition: var(--stpm-transition);
+    }
+
+    .btn-stpm-outline:hover:not(:disabled) {
+      border-color: var(--stpm-primary);
+      color: var(--stpm-primary);
+      background: var(--stpm-primary-soft);
+    }
+
+    /* Footer */
+    .app-footer {
+      text-align: center;
+      padding: 1.25rem 1rem 2rem;
+      font-size: 0.82rem;
+      color: var(--stpm-text-muted);
+    }
+
+    .status-trigger-btn {
+      background: none;
+      border: none;
+      color: var(--stpm-primary);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE DESIGN
+       ========================================================================== */
+    @media (max-width: 767.98px) {
+      .hero-header {
+        padding: 2rem 0 3.75rem;
+      }
+
+      .stepper-wrapper {
+        padding: 1.1rem 1.25rem;
+      }
+
+      .stepper-track {
+        display: none;
+      }
+
+      .mobile-progress-bar {
+        display: block;
+      }
+
+      .form-body {
+        padding: 1.5rem 1.2rem;
+      }
+
+      .book-card-body {
+        padding: 1.1rem 1rem;
+      }
+
+      .form-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+      }
+
+      .form-actions .btn {
+        width: 100%;
+      }
+
+      .receipt-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.2rem;
+      }
+    }
+
+    /* Print Styling for Confirmation Receipt */
+    @media print {
+      body {
+        background: #FFFFFF;
+      }
+      .hero-header {
+        background: var(--stpm-primary) !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        padding: 1.5rem 0;
+      }
+      .main-wrapper {
+        margin-top: 1rem;
+      }
+      .stepper-wrapper,
+      .no-print,
+      .app-footer {
+        display: none !important;
+      }
+      .app-card {
+        border: none;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       HEADER INSTITUSI
+       ======================================================================== -->
+  <header class="hero-header text-center">
+    <div class="container position-relative">
+      <div class="hero-badge">
+        <i class="bi bi-book-half"></i>
+        <span>Perpustakaan Digital &amp; Layanan Koleksi</span>
+      </div>
+      <div class="hero-institution">
+        SEKOLAH TINGGI PEMBANGUNAN MASYARAKAT SANTA URSULA
+      </div>
+      <h1 class="hero-title">
+        FORMULIR USULAN PENGADAAN BUKU PERPUSTAKAAN
+      </h1>
+      <p class="hero-subtitle">
+        &ldquo;Berpartisipasi dalam pengembangan koleksi perpustakaan untuk mendukung kualitas pendidikan, penelitian, dan literasi akademik.&rdquo;
+      </p>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       KONTEN UTAMA FORMULIR BERTAHAP
+       ======================================================================== -->
+  <main class="main-wrapper">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-9">
+          <div class="app-card">
+
+            <!-- Progress Indicator -->
+            <div class="stepper-wrapper" id="stepperSection" aria-label="Tahapan pengisian formulir">
+              <!-- Desktop & Tablet Horizontal Stepper -->
+              <div class="stepper-track" id="desktopStepper">
+                <div class="stepper-line-bg"></div>
+                <div class="stepper-line-fill" id="stepperLineFill"></div>
+
+                <button type="button" class="step-item active" data-step="1" aria-current="step">
+                  <span class="step-circle">1</span>
+                  <span class="step-label">Kategori</span>
+                </button>
+                <button type="button" class="step-item" data-step="2">
+                  <span class="step-circle">2</span>
+                  <span class="step-label">Identitas</span>
+                </button>
+                <button type="button" class="step-item" data-step="3">
+                  <span class="step-circle">3</span>
+                  <span class="step-label">Jumlah Buku</span>
+                </button>
+                <button type="button" class="step-item" data-step="4">
+                  <span class="step-circle">4</span>
+                  <span class="step-label">Detail Buku</span>
+                </button>
+                <button type="button" class="step-item" data-step="5">
+                  <span class="step-circle">5</span>
+                  <span class="step-label">Ringkasan</span>
+                </button>
+              </div>
+
+              <!-- Mobile Compact Progress Indicator -->
+              <div class="mobile-progress-bar">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="fw-bold small text-success" id="mobileStepText">Tahap 1 dari 5</span>
+                  <span class="small text-muted fw-semibold" id="mobileStepTitle">Kategori Pengusul</span>
+                </div>
+                <div class="progress" style="height: 8px; border-radius: 99px; background-color: #E1EAE5;">
+                  <div
+                    class="progress-bar"
+                    id="mobileProgressFill"
+                    role="progressbar"
+                    style="width: 20%; background: linear-gradient(90deg, #2F5D4A, #16C47F); border-radius: 99px;"
+                    aria-valuenow="20"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form Body -->
+            <div class="form-body">
+              <!-- Global Inline Notification Banner -->
+              <div id="globalAlertContainer" class="mb-3" aria-live="polite"></div>
+
+              <form id="bookProposalForm" novalidate>
+
+                <!-- ============================================================
+                     TAHAP 1: MEMILIH KATEGORI PENGUSUL
+                     ============================================================ -->
+                <section class="step-pane active" id="step-1" data-step-pane="1">
+                  <div class="section-eyebrow">Tahap 1 dari 5</div>
+                  <h2 class="section-heading">Pilih Kategori Pengusul</h2>
+                  <p class="section-desc">
+                    Silakan pilih status akademik Anda di STPM Santa Ursula untuk menyesuaikan formulir identitas.
+                  </p>
+
+                  <div class="row g-3" role="radiogroup" aria-label="Kategori Pengusul">
+                    <div class="col-md-6">
+                      <button
+                        type="button"
+                        class="choice-card"
+                        id="cardRoleDosen"
+                        data-role="Dosen"
+                        aria-pressed="false"
+                      >
+                        <span class="choice-check"><i class="bi bi-check-lg"></i></span>
+                        <div class="choice-icon">
+                          <i class="bi bi-person-workspace"></i>
+                        </div>
+                        <div class="choice-title">Dosen</div>
+                        <p class="choice-desc">
+                          Tenaga pendidik STPM Santa Ursula yang mengusulkan buku referensi perkuliahan, penelitian, atau pengabdian.
+                        </p>
+                      </button>
+                    </div>
+
+                    <div class="col-md-6">
+                      <button
+                        type="button"
+                        class="choice-card"
+                        id="cardRoleMahasiswa"
+                        data-role="Mahasiswa"
+                        aria-pressed="false"
+                      >
+                        <span class="choice-check"><i class="bi bi-check-lg"></i></span>
+                        <div class="choice-icon">
+                          <i class="bi bi-mortarboard-fill"></i>
+                        </div>
+                        <div class="choice-title">Mahasiswa</div>
+                        <p class="choice-desc">
+                          Mahasiswa aktif STPM Santa Ursula yang mengusulkan buku penunjang studi, tugas akhir, dan literasi akademik.
+                        </p>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div id="roleErrorMsg" class="text-danger small fw-semibold mt-3 d-none">
+                    <i class="bi bi-exclamation-circle me-1"></i>Silakan pilih kategori pengusul (Dosen atau Mahasiswa) terlebih dahulu.
+                  </div>
+
+                  <div class="form-actions justify-content-end">
+                    <button type="button" class="btn btn-stpm-primary" id="btnNextStep1">
+                      Lanjutkan <i class="bi bi-arrow-right ms-1"></i>
+                    </button>
+                  </div>
+                </section>
+
+                <!-- ============================================================
+                     TAHAP 2: MENGISI IDENTITAS PENGUSUL
+                     ============================================================ -->
+                <section class="step-pane" id="step-2" data-step-pane="2">
+                  <div class="section-eyebrow">Tahap 2 dari 5</div>
+                  <h2 class="section-heading">Identitas Pengusul</h2>
+                  <p class="section-desc">
+                    Lengkapi data diri Anda dengan benar agar pihak perpustakaan dapat memproses dan menindaklanjuti usulan.
+                  </p>
+
+                  <div class="role-context-bar">
+                    <div class="role-pill">
+                      <i class="bi bi-person-badge-fill" id="roleContextIcon"></i>
+                      <span>Kategori terpilih: <strong id="roleContextLabel">-</strong></span>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3" id="btnChangeRole">
+                      <i class="bi bi-arrow-repeat me-1"></i>Ubah Kategori
+                    </button>
+                  </div>
+
+                  <div class="row g-3">
+                    <!-- 1. Nama Lengkap -->
+                    <div class="col-12">
+                      <label for="namaLengkap" class="form-label">
+                        Nama Lengkap <span class="required-mark">*</span>
+                      </label>
+                      <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="namaLengkap"
+                          name="namaLengkap"
+                          placeholder="Masukkan nama lengkap beserta gelar (jika ada)"
+                          maxlength="120"
+                          required
+                        />
+                        <div class="invalid-feedback" id="namaLengkapFeedback">
+                          Nama lengkap wajib diisi (minimal 2 karakter).
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 2. Nomor Identitas Dinamis (Hanya NIDN atau Hanya NIM) -->
+                    <div class="col-md-6">
+                      <label for="nomorIdentitas" class="form-label" id="nomorIdentitasLabel">
+                        NIDN <span class="required-mark">*</span>
+                      </label>
+                      <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-card-heading"></i></span>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="nomorIdentitas"
+                          name="nomorIdentitas"
+                          placeholder="Masukkan NIDN Anda"
+                          maxlength="30"
+                          autocomplete="off"
+                          required
+                        />
+                        <div class="invalid-feedback" id="nomorIdentitasFeedback">
+                          Nomor identitas wajib diisi.
+                        </div>
+                      </div>
+                      <div class="form-text" id="nomorIdentitasHelp">
+                        Masukkan Nomor Induk Dosen Nasional yang valid.
+                      </div>
+                    </div>
+
+                    <!-- 3. Program Studi -->
+                    <div class="col-md-6">
+                      <label for="programStudi" class="form-label">
+                        Program Studi <span class="required-mark">*</span>
+                      </label>
+                      <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-building-fill"></i></span>
+                        <select class="form-select" id="programStudi" name="programStudi" required>
+                          <option value="">-- Pilih Program Studi --</option>
+                          <option value="Pembangunan Sosial">Pembangunan Sosial</option>
+                          <option value="Ilmu Pemerintahan">Ilmu Pemerintahan</option>
+                        </select>
+                        <div class="invalid-feedback" id="programStudiFeedback">
+                          Silakan pilih Program Studi Anda.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-actions">
+                    <button type="button" class="btn btn-stpm-outline" id="btnBackStep2">
+                      <i class="bi bi-arrow-left me-1"></i> Kembali
+                    </button>
+                    <button type="button" class="btn btn-stpm-primary" id="btnNextStep2">
+                      Lanjutkan <i class="bi bi-arrow-right ms-1"></i>
+                    </button>
+                  </div>
+                </section>
+
+                <!-- ============================================================
+                     TAHAP 3: MENENTUKAN JUMLAH USULAN BUKU
+                     ============================================================ -->
+                <section class="step-pane" id="step-3" data-step-pane="3">
+                  <div class="section-eyebrow">Tahap 3 dari 5</div>
+                  <h2 class="section-heading">Tentukan Jumlah Judul Buku</h2>
+                  <p class="section-desc">
+                    Dalam satu pengajuan, Anda dapat mengusulkan <strong>1, 2, atau lebih dari 2 judul buku</strong>. Data buku yang telah Anda isi akan tetap terjaga meskipun jumlah judul diubah.
+                  </p>
+
+                  <div class="row g-3" role="radiogroup" aria-label="Jumlah Judul Buku">
+                    <div class="col-md-4">
+                      <button
+                        type="button"
+                        class="choice-card"
+                        id="cardCount1"
+                        data-book-mode="1"
+                        aria-pressed="false"
+                      >
+                        <span class="choice-check"><i class="bi bi-check-lg"></i></span>
+                        <div class="choice-icon">
+                          <i class="bi bi-journal-bookmark-fill"></i>
+                        </div>
+                        <div class="choice-title">1 Judul Buku</div>
+                        <p class="choice-desc">
+                          Mengajukan satu judul buku referensi beserta rincian eksemplar dan estimasi biaya.
+                        </p>
+                      </button>
+                    </div>
+
+                    <div class="col-md-4">
+                      <button
+                        type="button"
+                        class="choice-card"
+                        id="cardCount2"
+                        data-book-mode="2"
+                        aria-pressed="false"
+                      >
+                        <span class="choice-check"><i class="bi bi-check-lg"></i></span>
+                        <div class="choice-icon">
+                          <i class="bi bi-journals"></i>
+                        </div>
+                        <div class="choice-title">2 Judul Buku</div>
+                        <p class="choice-desc">
+                          Mengajukan dua judul buku sekaligus dalam formulir terpisah (Buku 1 dan Buku 2) dengan total estimasi otomatis.
+                        </p>
+                      </button>
+                    </div>
+
+                    <div class="col-md-4">
+                      <button
+                        type="button"
+                        class="choice-card"
+                        id="cardCountMore"
+                        data-book-mode="more"
+                        aria-pressed="false"
+                      >
+                        <span class="choice-check"><i class="bi bi-check-lg"></i></span>
+                        <div class="choice-icon">
+                          <i class="bi bi-collection-fill"></i>
+                        </div>
+                        <div class="choice-title">Lebih dari 2 Buku</div>
+                        <p class="choice-desc">
+                          Mengajukan 3 judul buku atau lebih dalam satu pengajuan dengan formulir terpisah untuk setiap buku.
+                        </p>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Input Jumlah Buku Kustom (Muncul saat memilih Lebih dari 2 Buku) -->
+                  <div class="custom-count-box d-none" id="customBookCountWrapper">
+                    <div class="row align-items-center g-3">
+                      <div class="col-md-7">
+                        <label for="customBookCountInput" class="form-label mb-1">
+                          Masukkan Jumlah Judul Buku <span class="required-mark">*</span>
+                        </label>
+                        <div class="form-text mt-0">
+                          Tentukan jumlah judul buku yang ingin diusulkan (minimal 3 judul buku).
+                        </div>
+                      </div>
+                      <div class="col-md-5">
+                        <div class="input-group">
+                          <button
+                            type="button"
+                            class="btn btn-outline-secondary"
+                            id="btnDecBookCount"
+                            aria-label="Kurangi jumlah buku"
+                          >
+                            <i class="bi bi-dash-lg"></i>
+                          </button>
+                          <input
+                            type="number"
+                            class="form-control text-center fw-bold"
+                            id="customBookCountInput"
+                            value="3"
+                            min="3"
+                            max="50"
+                            step="1"
+                          />
+                          <button
+                            type="button"
+                            class="btn btn-outline-secondary"
+                            id="btnIncBookCount"
+                            aria-label="Tambah jumlah buku"
+                          >
+                            <i class="bi bi-plus-lg"></i>
+                          </button>
+                          <span class="input-group-text">Judul</span>
+                        </div>
+                        <div class="text-danger small fw-semibold mt-1 d-none" id="customBookCountError">
+                          Masukkan jumlah minimal 3 judul buku (maksimal 50 judul per pengajuan).
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="bookCountErrorMsg" class="text-danger small fw-semibold mt-3 d-none">
+                    <i class="bi bi-exclamation-circle me-1"></i>Silakan pilih jumlah judul buku terlebih dahulu.
+                  </div>
+
+                  <div class="form-actions">
+                    <button type="button" class="btn btn-stpm-outline" id="btnBackStep3">
+                      <i class="bi bi-arrow-left me-1"></i> Kembali
+                    </button>
+                    <button type="button" class="btn btn-stpm-primary" id="btnNextStep3">
+                      Lanjutkan <i class="bi bi-arrow-right ms-1"></i>
+                    </button>
+                  </div>
+                </section>
+
+                <!-- ============================================================
+                     TAHAP 4: DETAIL USULAN BUKU
+                     ============================================================ -->
+                <section class="step-pane" id="step-4" data-step-pane="4">
+                  <div class="section-eyebrow">Tahap 4 dari 5</div>
+                  <h2 class="section-heading">Detail Usulan Buku</h2>
+                  <p class="section-desc">
+                    Lengkapi informasi untuk setiap buku yang diusulkan. Estimasi total biaya dihitung secara otomatis.
+                  </p>
+
+                  <!-- Dynamic Book Forms Container (Buku 1, Buku 2, dst.) -->
+                  <div id="booksFormContainer"></div>
+
+                  <!-- Live Overall Cost Banner -->
+                  <div class="grand-total-banner" id="liveGrandTotalBanner">
+                    <div>
+                      <div class="grand-total-label" id="liveGrandTotalLabel">
+                        Estimasi Total Pengajuan (1 Judul Buku)
+                      </div>
+                      <div class="grand-total-breakdown" id="liveGrandTotalBreakdown">
+                        Buku 1: Rp 0
+                      </div>
+                    </div>
+                    <div class="text-md-end">
+                      <div class="grand-total-amount" id="liveGrandTotalValue">Rp 0</div>
+                    </div>
+                  </div>
+
+                  <div class="form-actions">
+                    <button type="button" class="btn btn-stpm-outline" id="btnBackStep4">
+                      <i class="bi bi-arrow-left me-1"></i> Kembali
+                    </button>
+                    <button type="button" class="btn btn-stpm-primary" id="btnNextStep4">
+                      Tinjau Ringkasan <i class="bi bi-clipboard2-check ms-1"></i>
+                    </button>
+                  </div>
+                </section>
+
+                <!-- ============================================================
+                     TAHAP 5: RINGKASAN DAN KONFIRMASI
+                     ============================================================ -->
+                <section class="step-pane" id="step-5" data-step-pane="5">
+                  <div class="section-eyebrow">Tahap 5 dari 5</div>
+                  <h2 class="section-heading">Ringkasan &amp; Konfirmasi Pengajuan</h2>
+                  <p class="section-desc">
+                    Periksa kembali seluruh data identitas dan rincian buku di bawah ini sebelum mengirim usulan ke Perpustakaan STPM Santa Ursula.
+                  </p>
+
+                  <!-- Dynamic Summary Rendered Here -->
+                  <div id="summaryContent"></div>
+
+                  <!-- Checkbox Persetujuan -->
+                  <div class="agreement-box" id="agreementBox">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="confirmAgreement"
+                        required
+                      />
+                      <label class="form-check-label fw-semibold" for="confirmAgreement">
+                        Saya menyatakan bahwa seluruh data usulan pengadaan buku yang diisi telah diperiksa dan benar.
+                      </label>
+                    </div>
+                    <div class="text-danger small mt-1 d-none" id="agreementErrorMsg">
+                      <i class="bi bi-exclamation-circle me-1"></i>Anda wajib mencentang persetujuan kebenaran data sebelum mengirim usulan.
+                    </div>
+                  </div>
+
+                  <div class="form-actions">
+                    <button type="button" class="btn btn-stpm-outline" id="btnBackStep5">
+                      <i class="bi bi-pencil-square me-1"></i> Kembali Perbaiki Data
+                    </button>
+                    <button type="submit" class="btn btn-stpm-accent" id="btnSubmitProposal">
+                      <span class="submit-default-label">
+                        <i class="bi bi-send-check-fill me-1"></i> Kirim Usulan
+                      </span>
+                      <span class="submit-loading-label d-none">
+                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                        Menyimpan ke Spreadsheet...
+                      </span>
+                    </button>
+                  </div>
+                </section>
+
+                <!-- ============================================================
+                     TAHAP 6: NOTIFIKASI BERHASIL (HANYA TAMPIL JIKA BACKEND SUKSES)
+                     ============================================================ -->
+                <section class="step-pane" id="step-6" data-step-pane="6">
+                  <div class="success-wrapper">
+                    <div class="success-icon-ring">
+                      <i class="bi bi-check-lg"></i>
+                    </div>
+                    <h2 class="fw-bold mb-2" style="color: var(--stpm-primary);">
+                      Usulan Pengadaan Buku Berhasil Dikirim
+                    </h2>
+                    <p class="text-muted mx-auto mb-4" style="max-width: 560px;">
+                      Terima kasih atas partisipasi Anda. Usulan pengadaan buku Anda telah resmi diterima dan tersimpan dalam sistem, serta akan ditinjau lebih lanjut oleh pihak <strong>Perpustakaan STPM Santa Ursula</strong>.
+                    </p>
+
+                    <div class="receipt-card">
+                      <div class="receipt-row">
+                        <span class="text-muted fw-medium">Nomor Referensi Pengajuan</span>
+                        <span class="receipt-code" id="successRefId">-</span>
+                      </div>
+                      <div class="receipt-row">
+                        <span class="text-muted fw-medium">Nama Pengusul</span>
+                        <span class="fw-bold" id="successProposerName">-</span>
+                      </div>
+                      <div class="receipt-row">
+                        <span class="text-muted fw-medium">Kategori &amp; Program Studi</span>
+                        <span class="fw-semibold" id="successProposerMeta">-</span>
+                      </div>
+                      <div class="receipt-row">
+                        <span class="text-muted fw-medium">Tanggal Pengajuan</span>
+                        <span class="fw-semibold" id="successDate">-</span>
+                      </div>
+                      <div class="receipt-row">
+                        <span class="text-muted fw-medium">Jumlah Usulan &amp; Estimasi Biaya</span>
+                        <span class="fw-bold text-success" id="successSummaryCost">-</span>
+                      </div>
+                      <div class="receipt-row">
+                        <span class="text-muted fw-medium">Status Pengajuan</span>
+                        <span class="badge rounded-pill text-bg-success px-3 py-2">
+                          <i class="bi bi-hourglass-split me-1"></i>Diterima &ndash; Menunggu Peninjauan
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="d-flex flex-wrap justify-content-center gap-2 mt-4 no-print">
+                      <button type="button" class="btn btn-stpm-outline" id="btnPrintReceipt">
+                        <i class="bi bi-printer me-1"></i> Cetak Bukti Pengajuan
+                      </button>
+                      <button type="button" class="btn btn-stpm-primary" id="btnNewProposal">
+                        <i class="bi bi-plus-circle me-1"></i> Ajukan Usulan Baru
+                      </button>
+                    </div>
+                  </div>
+                </section>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="container">
+      <div class="mb-1">
+        &copy; <span id="footerYear"></span> Perpustakaan Sekolah Tinggi Pembangunan Masyarakat Santa Ursula.
+      </div>
+      <div>
+        <button
+          type="button"
+          class="status-trigger-btn"
+          data-bs-toggle="modal"
+          data-bs-target="#connectionModal"
+        >
+          <i class="bi bi-plug me-1"></i>Cek Status Koneksi Google Apps Script
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal Diagnostik Koneksi Backend (Untuk Admin / Pengujian Koneksi) -->
+  <div class="modal fade" id="connectionModal" tabindex="-1" aria-labelledby="connectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow" style="border-radius: 16px;">
+        <div class="modal-header border-bottom-0 pb-0">
+          <h5 class="modal-title fw-bold" id="connectionModalLabel" style="color: var(--stpm-primary);">
+            <i class="bi bi-cloud-check me-2"></i>Status Koneksi Backend
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        </div>
+        <div class="modal-body">
+          <p class="small text-muted mb-3">
+            Pengujian ini memeriksa apakah URL Web App Google Apps Script sudah terkonfigurasi dan merespons dengan baik.
+          </p>
+          <div class="p-3 rounded-3 bg-light border mb-3">
+            <div class="small text-muted fw-semibold mb-1">Endpoint Google Apps Script Aktif:</div>
+            <div class="small font-monospace text-break" id="displayEndpointUrl">-</div>
+          </div>
+          <div id="connectionTestResult" class="d-none"></div>
+        </div>
+        <div class="modal-footer border-top-0 pt-0">
+          <button type="button" class="btn btn-stpm-outline btn-sm" data-bs-dismiss="modal">Tutup</button>
+          <button type="button" class="btn btn-stpm-primary btn-sm" id="btnRunConnectionTest">
+            <i class="bi bi-arrow-clockwise me-1"></i>Uji Koneksi Sekarang
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- ========================================================================
+       VANILLA JAVASCRIPT: STATE MANAGEMENT, VALIDASI, KALKULASI, & INTEGRASI GAS
+       ======================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ======================================================================
+         1. KONFIGURASI INTEGRASI BACKEND GOOGLE APPS SCRIPT
+         ----------------------------------------------------------------------
+         Ganti nilai GAS_WEB_APP_URL di bawah ini dengan URL Web App hasil
+         deployment Google Apps Script (Code.gs) Anda.
+         JANGAN meletakkan kredensial rahasia / API key di file frontend ini.
+         ====================================================================== */
+      const APP_CONFIG = {
+        GAS_WEB_APP_URL: 'PASTE_URL_WEB_APP_GOOGLE_APPS_SCRIPT_DI_SINI',
+        REQUEST_TIMEOUT_MS: 30000,
+        MAX_BOOKS_PER_SUBMISSION: 50
+      };
+
+      const STEP_TITLES = {
+        1: 'Kategori Pengusul',
+        2: 'Identitas Pengusul',
+        3: 'Jumlah Judul Buku',
+        4: 'Detail Usulan Buku',
+        5: 'Ringkasan & Konfirmasi',
+        6: 'Pengajuan Berhasil'
+      };
+
+      const VALID_ROLES = ['Dosen', 'Mahasiswa'];
+      const VALID_PRODI = ['Pembangunan Sosial', 'Ilmu Pemerintahan'];
+
+      /* ======================================================================
+         2. STATE APLIKASI (DATA PRESERVATION & ANTI-DOUBLE SUBMIT)
+         ====================================================================== */
+      function createEmptyBook() {
+        return {
+          judul: '',
+          penulis: '',
+          penerbit: '',
+          tahunTerbit: '',
+          isbn: '',
+          eksemplar: '1',
+          hargaSatuan: '',
+          linkPembelian: '',
+          keterangan: ''
+        };
+      }
+
+      const appState = {
+        currentStep: 1,
+        maxVisitedStep: 1,
+        kategori: '',
+        namaLengkap: '',
+        // Menyimpan NIDN dan NIM terpisah agar tidak tertukar saat kategori diubah
+        identitasPerKategori: {
+          Dosen: '',
+          Mahasiswa: ''
+        },
+        programStudi: '',
+        bookCountMode: '', // '1', '2', atau 'more'
+        jumlahJudul: 0, // 1, 2, 3, dst.
+        // Slot buku berkembang secara dinamis agar perubahan jumlah tetap mempertahankan data yang sudah diisi
+        books: [createEmptyBook(), createEmptyBook()],
+        isSubmitting: false,
+        isSubmitted: false
+      };
+
+      function ensureBookSlots(count) {
+        const target = Math.max(1, Number(count) || 1);
+        while (appState.books.length < target) {
+          appState.books.push(createEmptyBook());
+        }
+      }
+
+      function getSelectedBookCount() {
+        const count = Number(appState.jumlahJudul);
+        if (!Number.isInteger(count) || count < 1) {
+          return 1;
+        }
+        ensureBookSlots(count);
+        return count;
+      }
+
+      /* ======================================================================
+         3. REFERENSI ELEMEN DOM
+         ====================================================================== */
+      const el = {
+        form: document.getElementById('bookProposalForm'),
+        stepperSection: document.getElementById('stepperSection'),
+        stepperLineFill: document.getElementById('stepperLineFill'),
+        stepButtons: document.querySelectorAll('.step-item'),
+        stepPanes: document.querySelectorAll('.step-pane'),
+        mobileStepText: document.getElementById('mobileStepText'),
+        mobileStepTitle: document.getElementById('mobileStepTitle'),
+        mobileProgressFill: document.getElementById('mobileProgressFill'),
+        globalAlertContainer: document.getElementById('globalAlertContainer'),
+
+        // Tahap 1
+        cardRoleDosen: document.getElementById('cardRoleDosen'),
+        cardRoleMahasiswa: document.getElementById('cardRoleMahasiswa'),
+        roleErrorMsg: document.getElementById('roleErrorMsg'),
+        btnNextStep1: document.getElementById('btnNextStep1'),
+
+        // Tahap 2
+        roleContextIcon: document.getElementById('roleContextIcon'),
+        roleContextLabel: document.getElementById('roleContextLabel'),
+        btnChangeRole: document.getElementById('btnChangeRole'),
+        namaLengkap: document.getElementById('namaLengkap'),
+        nomorIdentitas: document.getElementById('nomorIdentitas'),
+        nomorIdentitasLabel: document.getElementById('nomorIdentitasLabel'),
+        nomorIdentitasHelp: document.getElementById('nomorIdentitasHelp'),
+        nomorIdentitasFeedback: document.getElementById('nomorIdentitasFeedback'),
+        programStudi: document.getElementById('programStudi'),
+        btnBackStep2: document.getElementById('btnBackStep2'),
+        btnNextStep2: document.getElementById('btnNextStep2'),
+
+        // Tahap 3
+        cardCount1: document.getElementById('cardCount1'),
+        cardCount2: document.getElementById('cardCount2'),
+        cardCountMore: document.getElementById('cardCountMore'),
+        customBookCountWrapper: document.getElementById('customBookCountWrapper'),
+        customBookCountInput: document.getElementById('customBookCountInput'),
+        customBookCountError: document.getElementById('customBookCountError'),
+        btnDecBookCount: document.getElementById('btnDecBookCount'),
+        btnIncBookCount: document.getElementById('btnIncBookCount'),
+        bookCountErrorMsg: document.getElementById('bookCountErrorMsg'),
+        btnBackStep3: document.getElementById('btnBackStep3'),
+        btnNextStep3: document.getElementById('btnNextStep3'),
+
+        // Tahap 4
+        booksFormContainer: document.getElementById('booksFormContainer'),
+        liveGrandTotalLabel: document.getElementById('liveGrandTotalLabel'),
+        liveGrandTotalBreakdown: document.getElementById('liveGrandTotalBreakdown'),
+        liveGrandTotalValue: document.getElementById('liveGrandTotalValue'),
+        btnBackStep4: document.getElementById('btnBackStep4'),
+        btnNextStep4: document.getElementById('btnNextStep4'),
+
+        // Tahap 5
+        summaryContent: document.getElementById('summaryContent'),
+        agreementBox: document.getElementById('agreementBox'),
+        confirmAgreement: document.getElementById('confirmAgreement'),
+        agreementErrorMsg: document.getElementById('agreementErrorMsg'),
+        btnBackStep5: document.getElementById('btnBackStep5'),
+        btnSubmitProposal: document.getElementById('btnSubmitProposal'),
+
+        // Tahap 6
+        successRefId: document.getElementById('successRefId'),
+        successProposerName: document.getElementById('successProposerName'),
+        successProposerMeta: document.getElementById('successProposerMeta'),
+        successDate: document.getElementById('successDate'),
+        successSummaryCost: document.getElementById('successSummaryCost'),
+        btnPrintReceipt: document.getElementById('btnPrintReceipt'),
+        btnNewProposal: document.getElementById('btnNewProposal'),
+
+        // Diagnostik & Footer
+        footerYear: document.getElementById('footerYear'),
+        displayEndpointUrl: document.getElementById('displayEndpointUrl'),
+        btnRunConnectionTest: document.getElementById('btnRunConnectionTest'),
+        connectionTestResult: document.getElementById('connectionTestResult')
+      };
+
+      /* ======================================================================
+         4. FUNGSI UTILITAS (FORMAT RUPIAH, ESCAPE HTML, ALERT, VALIDASI URL)
+         ====================================================================== */
+      const rupiahFormatter = new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      });
+
+      function formatRupiah(amount) {
+        const num = Number(amount);
+        if (!Number.isFinite(num) || num < 0) {
+          return 'Rp 0';
+        }
+        return rupiahFormatter.format(Math.round(num));
+      }
+
+      function escapeHtml(str) {
+        if (str === null || str === undefined) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function showGlobalAlert(message, type = 'danger') {
+        const iconMap = {
+          danger: 'bi-exclamation-triangle-fill',
+          warning: 'bi-exclamation-circle-fill',
+          success: 'bi-check-circle-fill',
+          info: 'bi-info-circle-fill'
+        };
+        const icon = iconMap[type] || iconMap.info;
+
+        el.globalAlertContainer.innerHTML = `
+          <div class="alert alert-${type} d-flex align-items-start gap-2 rounded-3 shadow-sm mb-0" role="alert">
+            <i class="bi ${icon} mt-1 flex-shrink-0"></i>
+            <div class="flex-grow-1 small">${message}</div>
+            <button type="button" class="btn-close btn-close-sm ms-2" data-bs-dismiss="alert" aria-label="Tutup"></button>
+          </div>
+        `;
+        el.globalAlertContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      function clearGlobalAlert() {
+        el.globalAlertContainer.innerHTML = '';
+      }
+
+      function getCurrentIdentityValue() {
+        if (!appState.kategori) return '';
+        return appState.identitasPerKategori[appState.kategori] || '';
+      }
+
+      function getIdentityLabel() {
+        return appState.kategori === 'Dosen' ? 'NIDN' : 'NIM';
+      }
+
+      /**
+       * Memvalidasi tautan pembelian atau informasi toko buku terdekat.
+       * - Wajib diisi.
+       * - Jika berbentuk URL (dimulai dengan http://, https://, www., atau pola domain tanpa spasi),
+       *   harus merupakan format URL yang valid.
+       * - Jika berupa informasi toko buku terdekat (mis. "Toko Buku Gramedia Kupang"), minimal 5 karakter.
+       */
+      function validatePurchaseLinkOrStore(rawValue) {
+        const value = String(rawValue || '').trim();
+        if (!value) {
+          return {
+            valid: false,
+            message: 'Tautan pembelian buku atau informasi toko buku terdekat wajib diisi.'
+          };
+        }
+
+        const looksLikeUrl = /^(https?:\/\/|www\.|ftp:\/\/)/i.test(value) ||
+          (!/\s/.test(value) && /\.[a-z]{2,}(\/|$)/i.test(value));
+
+        if (looksLikeUrl) {
+          const normalized = /^https?:\/\//i.test(value) ? value : 'https://' + value;
+          try {
+            const parsed = new URL(normalized);
+            if (!['http:', 'https:'].includes(parsed.protocol) || !parsed.hostname.includes('.')) {
+              return {
+                valid: false,
+                message: 'Format tautan (URL) pembelian tidak valid. Contoh: https://www.gramedia.com/...'
+              };
+            }
+            return { valid: true, message: '' };
+          } catch (err) {
+            return {
+              valid: false,
+              message: 'Format tautan (URL) pembelian tidak valid. Pastikan URL ditulis lengkap dan benar.'
+            };
+          }
+        }
+
+        if (value.length < 5) {
+          return {
+            valid: false,
+            message: 'Masukkan tautan URL valid atau nama & lokasi toko buku terdekat (minimal 5 karakter).'
+          };
+        }
+
+        return { valid: true, message: '' };
+      }
+
+      function isGasUrlConfigured() {
+        const url = String(APP_CONFIG.GAS_WEB_APP_URL || '').trim();
+        return url.startsWith('https://script.google.com/macros/s/') && url.endsWith('/exec');
+      }
+
+      /* ======================================================================
+         5. NAVIGASI TAHAPAN & PROGRESS INDICATOR
+         ====================================================================== */
+      function goToStep(targetStep) {
+        clearGlobalAlert();
+        appState.currentStep = targetStep;
+        if (targetStep > appState.maxVisitedStep && targetStep <= 5) {
+          appState.maxVisitedStep = targetStep;
+        }
+
+        // Tampilkan panel tahapan aktif
+        el.stepPanes.forEach(function (pane) {
+          const paneStep = Number(pane.getAttribute('data-step-pane'));
+          pane.classList.toggle('active', paneStep === targetStep);
+        });
+
+        // Sembunyikan stepper saat di Tahap 6 (Notifikasi Berhasil)
+        if (targetStep === 6) {
+          el.stepperSection.classList.add('d-none');
+        } else {
+          el.stepperSection.classList.remove('d-none');
+          updateStepperUI(targetStep);
+        }
+
+        // Sinkronisasi tampilan spesifik tahapan
+        if (targetStep === 2) {
+          syncIdentityStepUI();
+        } else if (targetStep === 4) {
+          renderBookForms();
+        } else if (targetStep === 5) {
+          renderSummaryView();
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function updateStepperUI(activeStep) {
+        // Desktop Stepper
+        const progressPercent = ((activeStep - 1) / 4) * 80; // 0% to 80% (matching left:10% right:10%)
+        el.stepperLineFill.style.width = progressPercent + '%';
+
+        el.stepButtons.forEach(function (btn) {
+          const stepNum = Number(btn.getAttribute('data-step'));
+          const circle = btn.querySelector('.step-circle');
+
+          btn.classList.remove('active', 'completed', 'clickable');
+          btn.removeAttribute('aria-current');
+
+          if (stepNum < activeStep) {
+            btn.classList.add('completed', 'clickable');
+            circle.innerHTML = '<i class="bi bi-check-lg"></i>';
+          } else if (stepNum === activeStep) {
+            btn.classList.add('active');
+            btn.setAttribute('aria-current', 'step');
+            circle.textContent = String(stepNum);
+          } else {
+            circle.textContent = String(stepNum);
+          }
+        });
+
+        // Mobile Progress Bar
+        const mobilePercent = Math.round((activeStep / 5) * 100);
+        el.mobileStepText.textContent = 'Tahap ' + activeStep + ' dari 5';
+        el.mobileStepTitle.textContent = STEP_TITLES[activeStep] || '';
+        el.mobileProgressFill.style.width = mobilePercent + '%';
+        el.mobileProgressFill.setAttribute('aria-valuenow', String(mobilePercent));
+      }
+
+      /* ======================================================================
+         6. TAHAP 1 & TAHAP 2: KATEGORI & IDENTITAS DINAMIS
+         ====================================================================== */
+      function selectRole(role) {
+        if (!VALID_ROLES.includes(role)) return;
+        appState.kategori = role;
+
+        const isDosen = role === 'Dosen';
+        el.cardRoleDosen.classList.toggle('selected', isDosen);
+        el.cardRoleDosen.setAttribute('aria-pressed', String(isDosen));
+        el.cardRoleMahasiswa.classList.toggle('selected', !isDosen);
+        el.cardRoleMahasiswa.setAttribute('aria-pressed', String(!isDosen));
+        el.roleErrorMsg.classList.add('d-none');
+
+        syncIdentityStepUI();
+      }
+
+      function syncIdentityStepUI() {
+        const isDosen = appState.kategori === 'Dosen';
+        const labelText = isDosen ? 'NIDN' : 'NIM';
+
+        el.roleContextLabel.textContent = appState.kategori || '-';
+        el.roleContextIcon.className = isDosen ? 'bi bi-person-workspace' : 'bi bi-mortarboard-fill';
+
+        // Perbarui label, placeholder, bantuan, dan nilai input secara otomatis (hanya 1 kolom tampil)
+        el.nomorIdentitasLabel.innerHTML = labelText + ' <span class="required-mark">*</span>';
+        el.nomorIdentitas.placeholder = isDosen
+          ? 'Contoh: 0812038901'
+          : 'Contoh: 2023010045';
+        el.nomorIdentitasHelp.textContent = isDosen
+          ? 'Masukkan Nomor Induk Dosen Nasional (NIDN) Anda.'
+          : 'Masukkan Nomor Induk Mahasiswa (NIM) Anda.';
+        el.nomorIdentitasFeedback.textContent = labelText + ' wajib diisi untuk kategori ' + appState.kategori + '.';
+
+        // Muat kembali nilai yang tersimpan sesuai kategori
+        el.namaLengkap.value = appState.namaLengkap;
+        el.nomorIdentitas.value = getCurrentIdentityValue();
+        el.programStudi.value = appState.programStudi;
+
+        // Bersihkan status validasi lama saat berpindah kategori
+        el.nomorIdentitas.classList.remove('is-invalid', 'is-valid');
+      }
+
+      function validateStep1() {
+        if (!VALID_ROLES.includes(appState.kategori)) {
+          el.roleErrorMsg.classList.remove('d-none');
+          return false;
+        }
+        el.roleErrorMsg.classList.add('d-none');
+        return true;
+      }
+
+      function validateStep2() {
+        let isValid = true;
+
+        // Validasi Nama Lengkap
+        const nama = el.namaLengkap.value.trim();
+        appState.namaLengkap = nama;
+        if (nama.length < 2) {
+          el.namaLengkap.classList.add('is-invalid');
+          el.namaLengkap.classList.remove('is-valid');
+          isValid = false;
+        } else {
+          el.namaLengkap.classList.remove('is-invalid');
+          el.namaLengkap.classList.add('is-valid');
+        }
+
+        // Validasi NIDN / NIM
+        const idNumber = el.nomorIdentitas.value.trim();
+        appState.identitasPerKategori[appState.kategori] = idNumber;
+        const idLabel = getIdentityLabel();
+
+        if (!idNumber) {
+          el.nomorIdentitasFeedback.textContent = idLabel + ' wajib diisi untuk ' + appState.kategori + '.';
+          el.nomorIdentitas.classList.add('is-invalid');
+          el.nomorIdentitas.classList.remove('is-valid');
+          isValid = false;
+        } else if (!/^[A-Za-z0-9.\-\/]{4,30}$/.test(idNumber)) {
+          el.nomorIdentitasFeedback.textContent = 'Format ' + idLabel + ' tidak valid (minimal 4 karakter tanpa spasi).';
+          el.nomorIdentitas.classList.add('is-invalid');
+          el.nomorIdentitas.classList.remove('is-valid');
+          isValid = false;
+        } else {
+          el.nomorIdentitas.classList.remove('is-invalid');
+          el.nomorIdentitas.classList.add('is-valid');
+        }
+
+        // Validasi Program Studi
+        const prodi = el.programStudi.value;
+        appState.programStudi = prodi;
+        if (!VALID_PRODI.includes(prodi)) {
+          el.programStudi.classList.add('is-invalid');
+          el.programStudi.classList.remove('is-valid');
+          isValid = false;
+        } else {
+          el.programStudi.classList.remove('is-invalid');
+          el.programStudi.classList.add('is-valid');
+        }
+
+        if (!isValid) {
+          const firstInvalid = document.querySelector('#step-2 .is-invalid');
+          if (firstInvalid) firstInvalid.focus();
+        }
+
+        return isValid;
+      }
+
+      /* ======================================================================
+         7. TAHAP 3: MEMILIH JUMLAH JUDUL BUKU (1, 2, ATAU LEBIH DARI 2)
+         ====================================================================== */
+      function selectBookCountMode(mode) {
+        if (!['1', '2', 'more'].includes(mode)) return;
+        appState.bookCountMode = mode;
+
+        el.cardCount1.classList.toggle('selected', mode === '1');
+        el.cardCount1.setAttribute('aria-pressed', String(mode === '1'));
+        el.cardCount2.classList.toggle('selected', mode === '2');
+        el.cardCount2.setAttribute('aria-pressed', String(mode === '2'));
+        el.cardCountMore.classList.toggle('selected', mode === 'more');
+        el.cardCountMore.setAttribute('aria-pressed', String(mode === 'more'));
+
+        el.bookCountErrorMsg.classList.add('d-none');
+        el.customBookCountError.classList.add('d-none');
+        el.customBookCountInput.classList.remove('is-invalid');
+
+        if (mode === '1') {
+          appState.jumlahJudul = 1;
+          el.customBookCountWrapper.classList.add('d-none');
+        } else if (mode === '2') {
+          appState.jumlahJudul = 2;
+          el.customBookCountWrapper.classList.add('d-none');
+        } else {
+          el.customBookCountWrapper.classList.remove('d-none');
+          let currentCustom = parseInt(el.customBookCountInput.value, 10);
+          if (!Number.isInteger(currentCustom) || currentCustom < 3) {
+            currentCustom = 3;
+            el.customBookCountInput.value = '3';
+          }
+          appState.jumlahJudul = currentCustom;
+          ensureBookSlots(currentCustom);
+        }
+      }
+
+      function adjustCustomBookCount(delta) {
+        let val = parseInt(el.customBookCountInput.value, 10);
+        if (!Number.isInteger(val)) val = 3;
+        val = Math.min(APP_CONFIG.MAX_BOOKS_PER_SUBMISSION, Math.max(3, val + delta));
+        el.customBookCountInput.value = String(val);
+        appState.jumlahJudul = val;
+        ensureBookSlots(val);
+        el.customBookCountError.classList.add('d-none');
+        el.customBookCountInput.classList.remove('is-invalid');
+      }
+
+      function validateStep3() {
+        if (!['1', '2', 'more'].includes(appState.bookCountMode)) {
+          el.bookCountErrorMsg.classList.remove('d-none');
+          return false;
+        }
+        el.bookCountErrorMsg.classList.add('d-none');
+
+        if (appState.bookCountMode === 'more') {
+          const rawVal = el.customBookCountInput.value.trim();
+          const parsed = Number(rawVal);
+          const isValidCustom =
+            rawVal !== '' &&
+            Number.isInteger(parsed) &&
+            parsed >= 3 &&
+            parsed <= APP_CONFIG.MAX_BOOKS_PER_SUBMISSION;
+
+          if (!isValidCustom) {
+            el.customBookCountInput.classList.add('is-invalid');
+            el.customBookCountError.classList.remove('d-none');
+            el.customBookCountInput.focus();
+            return false;
+          }
+
+          el.customBookCountInput.classList.remove('is-invalid');
+          el.customBookCountError.classList.add('d-none');
+          appState.jumlahJudul = parsed;
+          ensureBookSlots(parsed);
+        }
+
+        if (!Number.isInteger(appState.jumlahJudul) || appState.jumlahJudul < 1) {
+          el.bookCountErrorMsg.classList.remove('d-none');
+          return false;
+        }
+
+        return true;
+      }
+
+      /* ======================================================================
+         8. TAHAP 4: RENDER DINAMIS DETAIL BUKU & KALKULASI OTOMATIS
+         ====================================================================== */
+      function renderBookForms() {
+        const count = getSelectedBookCount();
+        let html = '';
+
+        for (let i = 0; i < count; i++) {
+          const bookNum = i + 1;
+          const b = appState.books[i];
+          const subtotal = calculateBookSubtotal(b);
+
+          html += `
+            <div class="book-card" data-book-index="${i}">
+              <div class="book-card-header">
+                <div class="book-badge">
+                  <span class="book-number-pill">BUKU ${bookNum}</span>
+                  <span>Rincian Usulan Buku ${bookNum}</span>
+                </div>
+                <span class="small text-muted">
+                  <span class="text-danger">*</span> Wajib diisi
+                </span>
+              </div>
+
+              <div class="book-card-body">
+                <div class="row g-3">
+                  <!-- 1. Judul Buku -->
+                  <div class="col-12">
+                    <label for="book_${i}_judul" class="form-label">
+                      Nama / Judul Buku <span class="required-mark">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control book-input"
+                      id="book_${i}_judul"
+                      data-book-index="${i}"
+                      data-field="judul"
+                      value="${escapeHtml(b.judul)}"
+                      placeholder="Masukkan judul lengkap buku yang diusulkan"
+                      maxlength="200"
+                      required
+                    />
+                    <div class="invalid-feedback">Judul buku wajib diisi.</div>
+                  </div>
+
+                  <!-- 2. Penulis -->
+                  <div class="col-md-6">
+                    <label for="book_${i}_penulis" class="form-label">
+                      Nama Penulis / Pengarang <span class="required-mark">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control book-input"
+                      id="book_${i}_penulis"
+                      data-book-index="${i}"
+                      data-field="penulis"
+                      value="${escapeHtml(b.penulis)}"
+                      placeholder="Contoh: Prof. Dr. Koentjaraningrat"
+                      maxlength="150"
+                      required
+                    />
+                    <div class="invalid-feedback">Nama penulis atau pengarang wajib diisi.</div>
+                  </div>
+
+                  <!-- 3. Penerbit (Opsional / Tidak Harus Diisi) -->
+                  <div class="col-md-6">
+                    <label for="book_${i}_penerbit" class="form-label">
+                      Penerbit <span class="optional-tag">Opsional</span>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control book-input"
+                      id="book_${i}_penerbit"
+                      data-book-index="${i}"
+                      data-field="penerbit"
+                      value="${escapeHtml(b.penerbit)}"
+                      placeholder="Contoh: Rajawali Pers / Gramedia"
+                      maxlength="120"
+                    />
+                  </div>
+
+                  <!-- 4. Tahun Terbit (Opsional / Tidak Harus Diisi) -->
+                  <div class="col-md-4">
+                    <label for="book_${i}_tahunTerbit" class="form-label">
+                      Tahun Terbit <span class="optional-tag">Opsional</span>
+                    </label>
+                    <input
+                      type="text"
+                      inputmode="numeric"
+                      class="form-control book-input"
+                      id="book_${i}_tahunTerbit"
+                      data-book-index="${i}"
+                      data-field="tahunTerbit"
+                      value="${escapeHtml(b.tahunTerbit)}"
+                      placeholder="Contoh: 2024"
+                      maxlength="20"
+                    />
+                  </div>
+
+                  <!-- 5. ISBN (Opsional / Tidak Harus Diisi) -->
+                  <div class="col-md-4">
+                    <label for="book_${i}_isbn" class="form-label">
+                      ISBN <span class="optional-tag">Opsional</span>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control book-input"
+                      id="book_${i}_isbn"
+                      data-book-index="${i}"
+                      data-field="isbn"
+                      value="${escapeHtml(b.isbn)}"
+                      placeholder="Contoh: 978-602-1234-56-7"
+                      maxlength="50"
+                    />
+                  </div>
+
+                  <!-- 6. Jumlah Eksemplar (Wajib, Min 1) -->
+                  <div class="col-md-4">
+                    <label for="book_${i}_eksemplar" class="form-label">
+                      Jumlah Eksemplar <span class="required-mark">*</span>
+                    </label>
+                    <div class="input-group">
+                      <input
+                        type="number"
+                        class="form-control book-input"
+                        id="book_${i}_eksemplar"
+                        data-book-index="${i}"
+                        data-field="eksemplar"
+                        value="${escapeHtml(b.eksemplar)}"
+                        min="1"
+                        max="500"
+                        step="1"
+                        required
+                      />
+                      <span class="input-group-text">Eks</span>
+                      <div class="invalid-feedback">Jumlah eksemplar wajib berupa bilangan bulat minimal 1.</div>
+                    </div>
+                  </div>
+
+                  <!-- 7. Estimasi Harga per Eksemplar (Wajib, Angka Positif) -->
+                  <div class="col-md-6">
+                    <label for="book_${i}_hargaSatuan" class="form-label">
+                      Estimasi Harga per Eksemplar <span class="required-mark">*</span>
+                    </label>
+                    <div class="input-group">
+                      <span class="input-group-text">Rp</span>
+                      <input
+                        type="number"
+                        class="form-control book-input"
+                        id="book_${i}_hargaSatuan"
+                        data-book-index="${i}"
+                        data-field="hargaSatuan"
+                        value="${escapeHtml(b.hargaSatuan)}"
+                        placeholder="Contoh: 125000"
+                        min="1"
+                        step="any"
+                        required
+                      />
+                      <div class="invalid-feedback">Estimasi harga wajib berupa angka positif lebih dari 0.</div>
+                    </div>
+                    <div class="form-text" id="book_${i}_hargaFormatted">
+                      ${b.hargaSatuan && Number(b.hargaSatuan) > 0 ? 'Terbaca: ' + formatRupiah(b.hargaSatuan) : 'Masukkan angka nominal dalam Rupiah tanpa titik/koma.'}
+                    </div>
+                  </div>
+
+                  <!-- Perhitungan Otomatis Total Harga per Buku -->
+                  <div class="col-md-6">
+                    <label class="form-label">Estimasi Total Harga Buku ${bookNum}</label>
+                    <div class="book-subtotal-box">
+                      <span class="book-subtotal-label">
+                        <i class="bi bi-calculator me-1"></i>Eksemplar &times; Harga
+                      </span>
+                      <span class="book-subtotal-value" id="book_${i}_subtotal">
+                        ${formatRupiah(subtotal)}
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- 8. Tautan Pembelian atau Info Toko Buku Terdekat (Wajib) -->
+                  <div class="col-12">
+                    <label for="book_${i}_linkPembelian" class="form-label">
+                      Tautan Pembelian Buku atau Informasi Toko Buku Terdekat <span class="required-mark">*</span>
+                    </label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
+                      <input
+                        type="text"
+                        class="form-control book-input"
+                        id="book_${i}_linkPembelian"
+                        data-book-index="${i}"
+                        data-field="linkPembelian"
+                        value="${escapeHtml(b.linkPembelian)}"
+                        placeholder="Contoh: https://www.gramedia.com/... atau Toko Buku Nusa Indah Ende"
+                        maxlength="500"
+                        required
+                      />
+                      <div class="invalid-feedback" id="book_${i}_linkFeedback">
+                        Tautan pembelian buku atau informasi toko buku terdekat wajib diisi.
+                      </div>
+                    </div>
+                    <div class="form-text">
+                      Dapat berupa tautan toko buku daring (URL lengkap) atau nama &amp; lokasi toko buku terdekat.
+                    </div>
+                  </div>
+
+                  <!-- 9. Keterangan / Alasan Pengusulan (Opsional) -->
+                  <div class="col-12">
+                    <label for="book_${i}_keterangan" class="form-label">
+                      Keterangan / Alasan Pengusulan Buku <span class="optional-tag">Opsional</span>
+                    </label>
+                    <textarea
+                      class="form-control book-input"
+                      id="book_${i}_keterangan"
+                      data-book-index="${i}"
+                      data-field="keterangan"
+                      rows="3"
+                      maxlength="600"
+                      placeholder="Tuliskan relevansi buku untuk mata kuliah, penelitian, atau pengembangan literasi mahasiswa..."
+                    >${escapeHtml(b.keterangan)}</textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        el.booksFormContainer.innerHTML = html;
+        updateLiveTotals();
+      }
+
+      function calculateBookSubtotal(book) {
+        const qty = Number(book.eksemplar);
+        const price = Number(book.hargaSatuan);
+        if (!Number.isInteger(qty) || qty < 1 || !Number.isFinite(price) || price <= 0) {
+          return 0;
+        }
+        return Math.round(qty * price);
+      }
+
+      function updateLiveTotals() {
+        const count = getSelectedBookCount();
+        let grandTotal = 0;
+        const breakdownParts = [];
+
+        for (let i = 0; i < count; i++) {
+          const book = appState.books[i];
+          const subtotal = calculateBookSubtotal(book);
+          grandTotal += subtotal;
+          breakdownParts.push('Buku ' + (i + 1) + ': ' + formatRupiah(subtotal));
+
+          const subtotalEl = document.getElementById('book_' + i + '_subtotal');
+          if (subtotalEl) {
+            subtotalEl.textContent = formatRupiah(subtotal);
+          }
+
+          const formattedEl = document.getElementById('book_' + i + '_hargaFormatted');
+          if (formattedEl) {
+            const numericPrice = Number(book.hargaSatuan);
+            formattedEl.textContent =
+              book.hargaSatuan !== '' && Number.isFinite(numericPrice) && numericPrice > 0
+                ? 'Terbaca: ' + formatRupiah(numericPrice)
+                : 'Masukkan angka nominal dalam Rupiah tanpa titik/koma.';
+          }
+        }
+
+        el.liveGrandTotalLabel.textContent =
+          count > 1
+            ? 'Estimasi Total Keseluruhan Pengajuan (' + count + ' Judul Buku)'
+            : 'Estimasi Total Pengajuan (1 Judul Buku)';
+        el.liveGrandTotalBreakdown.textContent = breakdownParts.join('  •  ');
+        el.liveGrandTotalValue.textContent = formatRupiah(grandTotal);
+      }
+
+      function validateStep4() {
+        const count = getSelectedBookCount();
+        let isValid = true;
+        let firstInvalidEl = null;
+
+        function markValidity(inputEl, valid, customFeedbackEl, customMessage) {
+          if (!inputEl) return;
+          if (valid) {
+            inputEl.classList.remove('is-invalid');
+            inputEl.classList.add('is-valid');
+          } else {
+            inputEl.classList.add('is-invalid');
+            inputEl.classList.remove('is-valid');
+            if (customFeedbackEl && customMessage) {
+              customFeedbackEl.textContent = customMessage;
+            }
+            if (!firstInvalidEl) {
+              firstInvalidEl = inputEl;
+            }
+            isValid = false;
+          }
+        }
+
+        for (let i = 0; i < count; i++) {
+          const b = appState.books[i];
+
+          // 1. Judul (wajib)
+          const judulInput = document.getElementById('book_' + i + '_judul');
+          b.judul = judulInput.value.trim();
+          markValidity(judulInput, b.judul.length > 0);
+
+          // 2. Penulis (wajib)
+          const penulisInput = document.getElementById('book_' + i + '_penulis');
+          b.penulis = penulisInput.value.trim();
+          markValidity(penulisInput, b.penulis.length > 0);
+
+          // 3. Penerbit (sepenuhnya opsional)
+          const penerbitInput = document.getElementById('book_' + i + '_penerbit');
+          b.penerbit = penerbitInput.value.trim();
+          penerbitInput.classList.remove('is-invalid');
+
+          // 4. Tahun Terbit (sepenuhnya opsional)
+          const tahunInput = document.getElementById('book_' + i + '_tahunTerbit');
+          b.tahunTerbit = tahunInput.value.trim();
+          tahunInput.classList.remove('is-invalid');
+
+          // 5. ISBN (sepenuhnya opsional)
+          const isbnInput = document.getElementById('book_' + i + '_isbn');
+          b.isbn = isbnInput.value.trim();
+          isbnInput.classList.remove('is-invalid');
+
+          // 6. Jumlah Eksemplar (wajib, integer >= 1)
+          const eksInput = document.getElementById('book_' + i + '_eksemplar');
+          b.eksemplar = eksInput.value.trim();
+          const qtyVal = Number(b.eksemplar);
+          const qtyValid = b.eksemplar !== '' && Number.isInteger(qtyVal) && qtyVal >= 1 && qtyVal <= 500;
+          markValidity(eksInput, qtyValid);
+
+          // 7. Estimasi Harga per Eksemplar (wajib, angka positif > 0)
+          const hargaInput = document.getElementById('book_' + i + '_hargaSatuan');
+          b.hargaSatuan = hargaInput.value.trim();
+          const priceVal = Number(b.hargaSatuan);
+          const priceValid = b.hargaSatuan !== '' && Number.isFinite(priceVal) && priceVal > 0;
+          markValidity(hargaInput, priceValid);
+
+          // 8. Tautan Pembelian / Info Toko Buku (wajib + validasi URL jika tautan)
+          const linkInput = document.getElementById('book_' + i + '_linkPembelian');
+          const linkFeedback = document.getElementById('book_' + i + '_linkFeedback');
+          b.linkPembelian = linkInput.value.trim();
+          const linkCheck = validatePurchaseLinkOrStore(b.linkPembelian);
+          markValidity(linkInput, linkCheck.valid, linkFeedback, linkCheck.message);
+
+          // 9. Keterangan (opsional)
+          const ketInput = document.getElementById('book_' + i + '_keterangan');
+          b.keterangan = ketInput.value.trim();
+        }
+
+        updateLiveTotals();
+
+        if (!isValid && firstInvalidEl) {
+          firstInvalidEl.focus();
+          firstInvalidEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        return isValid;
+      }
+
+      /* ======================================================================
+         9. TAHAP 5: RENDER RINGKASAN & KONFIRMASI
+         ====================================================================== */
+      function renderSummaryView() {
+        const count = getSelectedBookCount();
+        const idLabel = getIdentityLabel();
+        const idValue = getCurrentIdentityValue();
+        let grandTotal = 0;
+
+        let booksSummaryHtml = '';
+        for (let i = 0; i < count; i++) {
+          const b = appState.books[i];
+          const subtotal = calculateBookSubtotal(b);
+          grandTotal += subtotal;
+
+          booksSummaryHtml += `
+            <div class="summary-section">
+              <div class="summary-section-title">
+                <i class="bi bi-book-fill"></i>
+                <span>Detail Buku ${i + 1}</span>
+              </div>
+              <div class="summary-grid">
+                <div style="grid-column: 1 / -1;">
+                  <div class="summary-item-label">Judul Buku</div>
+                  <div class="summary-item-value">${escapeHtml(b.judul)}</div>
+                </div>
+                <div>
+                  <div class="summary-item-label">Penulis / Pengarang</div>
+                  <div class="summary-item-value">${escapeHtml(b.penulis)}</div>
+                </div>
+                <div>
+                  <div class="summary-item-label">Penerbit</div>
+                  <div class="summary-item-value">${b.penerbit ? escapeHtml(b.penerbit) : '<span class="text-muted fw-normal">-</span>'}</div>
+                </div>
+                <div>
+                  <div class="summary-item-label">Tahun Terbit</div>
+                  <div class="summary-item-value">${b.tahunTerbit ? escapeHtml(b.tahunTerbit) : '<span class="text-muted fw-normal">-</span>'}</div>
+                </div>
+                <div>
+                  <div class="summary-item-label">ISBN</div>
+                  <div class="summary-item-value">${b.isbn ? escapeHtml(b.isbn) : '<span class="text-muted fw-normal">-</span>'}</div>
+                </div>
+                <div>
+                  <div class="summary-item-label">Jumlah Eksemplar</div>
+                  <div class="summary-item-value">${escapeHtml(b.eksemplar)} eksemplar</div>
+                </div>
+                <div>
+                  <div class="summary-item-label">Estimasi Harga Satuan</div>
+                  <div class="summary-item-value">${formatRupiah(b.hargaSatuan)}</div>
+                </div>
+                <div>
+                  <div class="summary-item-label">Total Harga Buku ${i + 1}</div>
+                  <div class="summary-item-value text-success fw-bold">${formatRupiah(subtotal)}</div>
+                </div>
+                <div style="grid-column: 1 / -1;">
+                  <div class="summary-item-label">Tautan Pembelian / Toko Buku Terdekat</div>
+                  <div class="summary-item-value">${escapeHtml(b.linkPembelian)}</div>
+                </div>
+                <div style="grid-column: 1 / -1;">
+                  <div class="summary-item-label">Keterangan / Alasan Pengusulan</div>
+                  <div class="summary-item-value">${b.keterangan ? escapeHtml(b.keterangan) : '<span class="text-muted fw-normal">-</span>'}</div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        el.summaryContent.innerHTML = `
+          <div class="summary-section">
+            <div class="summary-section-title">
+              <i class="bi bi-person-vcard-fill"></i>
+              <span>Data Identitas Pengusul</span>
+            </div>
+            <div class="summary-grid">
+              <div>
+                <div class="summary-item-label">Kategori Pengusul</div>
+                <div class="summary-item-value">${escapeHtml(appState.kategori)}</div>
+              </div>
+              <div>
+                <div class="summary-item-label">Nama Lengkap</div>
+                <div class="summary-item-value">${escapeHtml(appState.namaLengkap)}</div>
+              </div>
+              <div>
+                <div class="summary-item-label">${escapeHtml(idLabel)}</div>
+                <div class="summary-item-value">${escapeHtml(idValue)}</div>
+              </div>
+              <div>
+                <div class="summary-item-label">Program Studi</div>
+                <div class="summary-item-value">${escapeHtml(appState.programStudi)}</div>
+              </div>
+              <div>
+                <div class="summary-item-label">Jumlah Judul Buku</div>
+                <div class="summary-item-value">${count} Judul Buku</div>
+              </div>
+            </div>
+          </div>
+
+          ${booksSummaryHtml}
+
+          <div class="grand-total-banner">
+            <div>
+              <div class="grand-total-label">Estimasi Total Biaya Pengadaan</div>
+              <div class="grand-total-breakdown">Total keseluruhan untuk ${count} judul buku yang diusulkan</div>
+            </div>
+            <div class="grand-total-amount">${formatRupiah(grandTotal)}</div>
+          </div>
+        `;
+      }
+
+      /* ======================================================================
+         10. PENGIRIMAN DATA KE GOOGLE APPS SCRIPT (REAL INTEGRATION)
+         ====================================================================== */
+      function buildSubmissionPayload() {
+        const count = getSelectedBookCount();
+        const selectedBooks = [];
+        let grandTotal = 0;
+
+        for (let i = 0; i < count; i++) {
+          const b = appState.books[i];
+          const eksemplar = parseInt(b.eksemplar, 10);
+          const hargaSatuan = Math.round(Number(b.hargaSatuan));
+          const totalHarga = eksemplar * hargaSatuan;
+          grandTotal += totalHarga;
+
+          selectedBooks.push({
+            nomorBuku: i + 1,
+            judul: b.judul.trim(),
+            penulis: b.penulis.trim(),
+            penerbit: b.penerbit.trim(),
+            tahunTerbit: b.tahunTerbit.trim(),
+            isbn: b.isbn.trim(),
+            eksemplar: eksemplar,
+            hargaSatuan: hargaSatuan,
+            totalHarga: totalHarga,
+            linkPembelian: b.linkPembelian.trim(),
+            keterangan: b.keterangan.trim()
+          });
+        }
+
+        return {
+          kategoriPengusul: appState.kategori,
+          namaLengkap: appState.namaLengkap.trim(),
+          nomorIdentitas: getCurrentIdentityValue().trim(),
+          programStudi: appState.programStudi,
+          jumlahJudul: count,
+          estimasiTotalBiaya: grandTotal,
+          buku: selectedBooks
+        };
+      }
+
+      function setSubmittingUI(submitting) {
+        appState.isSubmitting = submitting;
+        el.btnSubmitProposal.disabled = submitting;
+        el.btnBackStep5.disabled = submitting;
+        el.confirmAgreement.disabled = submitting;
+
+        const defaultLbl = el.btnSubmitProposal.querySelector('.submit-default-label');
+        const loadingLbl = el.btnSubmitProposal.querySelector('.submit-loading-label');
+        if (defaultLbl && loadingLbl) {
+          defaultLbl.classList.toggle('d-none', submitting);
+          loadingLbl.classList.toggle('d-none', !submitting);
+        }
+      }
+
+      async function handleFormSubmit(event) {
+        event.preventDefault();
+
+        // Cegah pengiriman ganda akibat klik tombol berulang
+        if (appState.isSubmitting || appState.isSubmitted) {
+          return;
+        }
+
+        clearGlobalAlert();
+
+        // Validasi ulang seluruh tahapan sebelum mengirim
+        if (!validateStep1() || !validateStep2() || !validateStep3() || !validateStep4()) {
+          showGlobalAlert(
+            'Terdapat data wajib yang belum lengkap atau tidak valid. Silakan periksa kembali formulir Anda.',
+            'danger'
+          );
+          return;
+        }
+
+        // Validasi checkbox persetujuan
+        if (!el.confirmAgreement.checked) {
+          el.agreementBox.classList.add('is-invalid');
+          el.agreementErrorMsg.classList.remove('d-none');
+          el.confirmAgreement.focus();
+          return;
+        } else {
+          el.agreementBox.classList.remove('is-invalid');
+          el.agreementErrorMsg.classList.add('d-none');
+        }
+
+        // Pastikan URL Google Apps Script sudah dikonfigurasi
+        if (!isGasUrlConfigured()) {
+          showGlobalAlert(
+            '<strong>Koneksi Google Apps Script belum dikonfigurasi.</strong><br>' +
+            'Admin perpustakaan perlu mengganti <code>APP_CONFIG.GAS_WEB_APP_URL</code> pada file <code>index.html</code> dengan URL Web App Google Apps Script yang aktif. Lihat panduan pada <code>README.md</code>.',
+            'warning'
+          );
+          return;
+        }
+
+        const payload = buildSubmissionPayload();
+        setSubmittingUI(true);
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(function () {
+          controller.abort();
+        }, APP_CONFIG.REQUEST_TIMEOUT_MS);
+
+        try {
+          /*
+           * Menggunakan Content-Type: text/plain;charset=utf-8 agar permintaan POST
+           * ke Google Apps Script Web App tergolong CORS Simple Request (tanpa preflight OPTIONS)
+           * sehingga browser dapat membaca respons JSON asli dari backend secara akurat.
+           */
+          const response = await fetch(APP_CONFIG.GAS_WEB_APP_URL, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'text/plain;charset=utf-8'
+            },
+            body: JSON.stringify(payload),
+            redirect: 'follow',
+            signal: controller.signal
+          });
+
+          clearTimeout(timeoutId);
+
+          if (!response.ok) {
+            throw new Error('Server Google Apps Script mengembalikan status HTTP ' + response.status + '.');
+          }
+
+          let result;
+          try {
+            result = await response.json();
+          } catch (parseErr) {
+            throw new Error('Respons server tidak berformat JSON yang valid. Pastikan deployment Web App mengizinkan akses "Anyone".');
+          }
+
+          // Jangan tampilkan notifikasi berhasil apabila penyimpanan ke Spreadsheet gagal
+          if (!result || result.status !== 'success' || !result.data || !result.data.idPengajuan) {
+            const backendError = (result && result.message)
+              ? result.message
+              : 'Penyimpanan data ke Google Spreadsheet gagal. Silakan coba lagi.';
+            throw new Error(backendError);
+          }
+
+          // Pengiriman dan penyimpanan ke Google Spreadsheet benar-benar berhasil
+          appState.isSubmitted = true;
+          populateSuccessScreen(result.data, payload);
+          goToStep(6);
+
+        } catch (error) {
+          clearTimeout(timeoutId);
+          setSubmittingUI(false);
+
+          let errorMsg = 'Terjadi kesalahan saat mengirim usulan ke server Perpustakaan.';
+          if (error && error.name === 'AbortError') {
+            errorMsg = 'Waktu koneksi habis (timeout). Periksa koneksi internet Anda lalu coba kirim kembali.';
+          } else if (error && error.message) {
+            errorMsg = escapeHtml(error.message);
+          }
+
+          showGlobalAlert(
+            '<strong>Pengiriman Gagal!</strong> Data belum tersimpan di Google Spreadsheet.<br>' + errorMsg,
+            'danger'
+          );
+        }
+      }
+
+      function populateSuccessScreen(serverData, payload) {
+        el.successRefId.textContent = serverData.idPengajuan;
+        el.successProposerName.textContent = serverData.namaLengkap || payload.namaLengkap;
+        el.successProposerMeta.textContent =
+          (serverData.kategoriPengusul || payload.kategoriPengusul) +
+          ' • ' +
+          (serverData.programStudi || payload.programStudi);
+
+        let formattedDate = serverData.tanggalPengajuan;
+        if (!formattedDate) {
+          formattedDate = new Intl.DateTimeFormat('id-ID', {
+            dateStyle: 'full',
+            timeStyle: 'short'
+          }).format(new Date());
+        }
+        el.successDate.textContent = formattedDate;
+
+        const finalTotal = typeof serverData.estimasiTotalBiaya === 'number'
+          ? serverData.estimasiTotalBiaya
+          : payload.estimasiTotalBiaya;
+        el.successSummaryCost.textContent =
+          payload.jumlahJudul + ' Judul Buku • ' + formatRupiah(finalTotal);
+      }
+
+      function resetApplication() {
+        appState.currentStep = 1;
+        appState.maxVisitedStep = 1;
+        appState.kategori = '';
+        appState.namaLengkap = '';
+        appState.identitasPerKategori = { Dosen: '', Mahasiswa: '' };
+        appState.programStudi = '';
+        appState.bookCountMode = '';
+        appState.jumlahJudul = 0;
+        appState.books = [createEmptyBook(), createEmptyBook()];
+        appState.isSubmitting = false;
+        appState.isSubmitted = false;
+
+        el.form.reset();
+        el.cardRoleDosen.classList.remove('selected');
+        el.cardRoleDosen.setAttribute('aria-pressed', 'false');
+        el.cardRoleMahasiswa.classList.remove('selected');
+        el.cardRoleMahasiswa.setAttribute('aria-pressed', 'false');
+        el.cardCount1.classList.remove('selected');
+        el.cardCount1.setAttribute('aria-pressed', 'false');
+        el.cardCount2.classList.remove('selected');
+        el.cardCount2.setAttribute('aria-pressed', 'false');
+        el.cardCountMore.classList.remove('selected');
+        el.cardCountMore.setAttribute('aria-pressed', 'false');
+        el.customBookCountWrapper.classList.add('d-none');
+        el.customBookCountInput.value = '3';
+        el.customBookCountInput.classList.remove('is-invalid');
+        el.customBookCountError.classList.add('d-none');
+
+        el.namaLengkap.classList.remove('is-valid', 'is-invalid');
+        el.nomorIdentitas.classList.remove('is-valid', 'is-invalid');
+        el.programStudi.classList.remove('is-valid', 'is-invalid');
+        el.agreementBox.classList.remove('is-invalid');
+        el.agreementErrorMsg.classList.add('d-none');
+        setSubmittingUI(false);
+
+        goToStep(1);
+      }
+
+      /* ======================================================================
+         11. PENGUJIAN KONEKSI GOOGLE APPS SCRIPT (DIAGNOSTIK)
+         ====================================================================== */
+      async function runConnectionDiagnostics() {
+        el.connectionTestResult.classList.remove('d-none');
+
+        if (!isGasUrlConfigured()) {
+          el.connectionTestResult.innerHTML = `
+            <div class="alert alert-warning small mb-0">
+              <i class="bi bi-exclamation-triangle-fill me-1"></i>
+              <strong>URL belum dikonfigurasi.</strong> Masukkan URL deployment Web App Google Apps Script Anda pada konstanta <code>APP_CONFIG.GAS_WEB_APP_URL</code> di dalam <code>index.html</code>.
+            </div>
+          `;
+          return;
+        }
+
+        el.btnRunConnectionTest.disabled = true;
+        el.connectionTestResult.innerHTML = `
+          <div class="alert alert-info small mb-0">
+            <span class="spinner-border spinner-border-sm me-2"></span>Menghubungi Google Apps Script...
+          </div>
+        `;
+
+        try {
+          const response = await fetch(APP_CONFIG.GAS_WEB_APP_URL, {
+            method: 'GET',
+            redirect: 'follow'
+          });
+          if (!response.ok) {
+            throw new Error('Status HTTP ' + response.status);
+          }
+          const data = await response.json();
+          if (data && data.status === 'ok') {
+            el.connectionTestResult.innerHTML = `
+              <div class="alert alert-success small mb-0">
+                <i class="bi bi-check-circle-fill me-1"></i>
+                <strong>Koneksi Berhasil!</strong><br>
+                Layanan: ${escapeHtml(data.service || 'Google Apps Script')}<br>
+                Spreadsheet: ${escapeHtml(data.spreadsheetName || 'Terhubung')}
+              </div>
+            `;
+          } else {
+            throw new Error(data.message || 'Respons server tidak sesuai.');
+          }
+        } catch (err) {
+          el.connectionTestResult.innerHTML = `
+            <div class="alert alert-danger small mb-0">
+              <i class="bi bi-x-circle-fill me-1"></i>
+              <strong>Koneksi Gagal:</strong> ${escapeHtml(err.message || 'Tidak dapat terhubung ke endpoint.')}
+            </div>
+          `;
+        } finally {
+          el.btnRunConnectionTest.disabled = false;
+        }
+      }
+
+      /* ======================================================================
+         12. EVENT LISTENERS
+         ====================================================================== */
+      function initEventListeners() {
+        // Tahap 1: Pilih Kategori
+        el.cardRoleDosen.addEventListener('click', function () {
+          selectRole('Dosen');
+        });
+        el.cardRoleMahasiswa.addEventListener('click', function () {
+          selectRole('Mahasiswa');
+        });
+        el.btnNextStep1.addEventListener('click', function () {
+          if (validateStep1()) goToStep(2);
+        });
+
+        // Tahap 2: Identitas
+        el.btnChangeRole.addEventListener('click', function () {
+          goToStep(1);
+        });
+        el.namaLengkap.addEventListener('input', function () {
+          appState.namaLengkap = this.value;
+          if (this.classList.contains('is-invalid') && this.value.trim().length >= 2) {
+            this.classList.remove('is-invalid');
+          }
+        });
+        el.nomorIdentitas.addEventListener('input', function () {
+          if (appState.kategori) {
+            appState.identitasPerKategori[appState.kategori] = this.value;
+          }
+          if (this.classList.contains('is-invalid') && this.value.trim().length >= 4) {
+            this.classList.remove('is-invalid');
+          }
+        });
+        el.programStudi.addEventListener('change', function () {
+          appState.programStudi = this.value;
+          if (VALID_PRODI.includes(this.value)) {
+            this.classList.remove('is-invalid');
+          }
+        });
+        el.btnBackStep2.addEventListener('click', function () {
+          goToStep(1);
+        });
+        el.btnNextStep2.addEventListener('click', function () {
+          if (validateStep2()) goToStep(3);
+        });
+
+        // Tahap 3: Jumlah Buku (1, 2, atau Lebih dari 2)
+        el.cardCount1.addEventListener('click', function () {
+          selectBookCountMode('1');
+        });
+        el.cardCount2.addEventListener('click', function () {
+          selectBookCountMode('2');
+        });
+        el.cardCountMore.addEventListener('click', function () {
+          selectBookCountMode('more');
+          el.customBookCountInput.focus();
+        });
+        el.btnDecBookCount.addEventListener('click', function () {
+          adjustCustomBookCount(-1);
+        });
+        el.btnIncBookCount.addEventListener('click', function () {
+          adjustCustomBookCount(1);
+        });
+        el.customBookCountInput.addEventListener('input', function () {
+          const val = Number(this.value.trim());
+          if (Number.isInteger(val) && val >= 3 && val <= APP_CONFIG.MAX_BOOKS_PER_SUBMISSION) {
+            appState.jumlahJudul = val;
+            ensureBookSlots(val);
+            this.classList.remove('is-invalid');
+            el.customBookCountError.classList.add('d-none');
+          }
+        });
+        el.btnBackStep3.addEventListener('click', function () {
+          goToStep(2);
+        });
+        el.btnNextStep3.addEventListener('click', function () {
+          if (validateStep3()) goToStep(4);
+        });
+
+        // Tahap 4: Event Delegation untuk Input Detail Buku & Kalkulasi Real-time
+        el.booksFormContainer.addEventListener('input', function (event) {
+          const target = event.target;
+          if (!target.classList.contains('book-input')) return;
+
+          const idx = Number(target.getAttribute('data-book-index'));
+          const field = target.getAttribute('data-field');
+          if (!Number.isInteger(idx) || !field || !appState.books[idx]) return;
+
+          appState.books[idx][field] = target.value;
+
+          if (target.classList.contains('is-invalid')) {
+            target.classList.remove('is-invalid');
+          }
+
+          if (field === 'eksemplar' || field === 'hargaSatuan') {
+            updateLiveTotals();
+          }
+        });
+
+        el.btnBackStep4.addEventListener('click', function () {
+          goToStep(3);
+        });
+        el.btnNextStep4.addEventListener('click', function () {
+          if (validateStep4()) goToStep(5);
+        });
+
+        // Tahap 5: Ringkasan & Submit
+        el.confirmAgreement.addEventListener('change', function () {
+          if (this.checked) {
+            el.agreementBox.classList.remove('is-invalid');
+            el.agreementErrorMsg.classList.add('d-none');
+          }
+        });
+        el.btnBackStep5.addEventListener('click', function () {
+          if (!appState.isSubmitting) goToStep(4);
+        });
+        el.form.addEventListener('submit', handleFormSubmit);
+
+        // Cegah tombol Enter tidak sengaja mensubmit form sebelum Tahap 5
+        el.form.addEventListener('keydown', function (event) {
+          if (event.key === 'Enter' && event.target.tagName !== 'TEXTAREA' && appState.currentStep < 5) {
+            event.preventDefault();
+          }
+        });
+
+        // Navigasi klik pada Stepper yang sudah dilalui
+        el.stepButtons.forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            if (appState.isSubmitting || appState.isSubmitted) return;
+            const targetStep = Number(this.getAttribute('data-step'));
+            if (targetStep < appState.currentStep) {
+              goToStep(targetStep);
+            }
+          });
+        });
+
+        // Tahap 6: Cetak & Ajukan Baru
+        el.btnPrintReceipt.addEventListener('click', function () {
+          window.print();
+        });
+        el.btnNewProposal.addEventListener('click', resetApplication);
+
+        // Modal Diagnostik
+        el.btnRunConnectionTest.addEventListener('click', runConnectionDiagnostics);
+      }
+
+      /* ======================================================================
+         13. INISIALISASI APLIKASI
+         ====================================================================== */
+      function init() {
+        el.footerYear.textContent = String(new Date().getFullYear());
+        el.displayEndpointUrl.textContent = APP_CONFIG.GAS_WEB_APP_URL;
+        initEventListeners();
+        updateStepperUI(1);
+      }
+
+      document.addEventListener('DOMContentLoaded', init);
+    })();
+  </script>
+</body>
+</html>
